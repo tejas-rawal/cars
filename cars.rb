@@ -2,7 +2,6 @@ class Car
 @@total_car_count = 0
 @@cars_per_color = {}
 
-attr_accessor :color
 
 	def self.total_car_count
 		@@total_car_count
@@ -17,19 +16,21 @@ attr_accessor :color
 		@distance = 0
 		@color = color
 		@@total_car_count += 1
-		@@cars_per_color[color] += 1
+		@@cars_per_color.each do |color|
+			@@cars_per_color[@color] += 1
+		end
 	end
 
 
-	def self.color=(car, old_color, new_color)
-		@@cars_per_color.each do |c, count|
-			if old_color == c
-				@@cars_per_color[color] -= 1
-			elsif new_color == c
+	def color=(new_color)
+		@color
+		@@cars_per_color.each do |color|
+			if new_color == color
 				@@cars_per_color[color] += 1
+				
+				@@cars_per_color[color] -= 1
 			end
-		end
-		car.color = new_color
+		end	
 	end
 
 	def self.most_popular_color
@@ -59,8 +60,8 @@ attr_accessor :color
 	end
 end
 
-car_a = Car.new()
-car_b = Car.new()
+car_a = Car.new('black')
+car_b = Car.new('red')
 puts car_a
 puts car_b
 car_a.drive(10)
@@ -72,9 +73,9 @@ puts car_a
 puts car_b
 
 puts Car.total_car_count
-c1 = Car.new
+c1 = Car.new('blue')
 puts Car.total_car_count
-c2 = Car.new
+c2 = Car.new('black')
 puts Car.total_car_count
 
 # 1 - Class method on instance
@@ -82,13 +83,13 @@ puts Car.total_car_count
 # c.total_car_count 
 
 # 2 - Class method on class
-Car.total_car_count
+# Car.total_car_count
 
 # # 3 - Instance method on class
 # Car.drive(10)
 
 # # 4 - Instance method on instance
-c = Car.new
+c = Car.new ('blue')
 c.drive(10)
 puts c
 
@@ -97,6 +98,6 @@ blue_car = Car.new('blue')
 red_car2 = Car.new('red')
 black_car = Car.new('black')
 
-Car.color=(red_car,'red','black') # change red_car color to black
+# red_car.color=('black') # change red_car color to black
 
-Car.most_popular_color # black
+puts Car.most_popular_color # black
